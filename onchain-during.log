@@ -48,3 +48,46 @@ withdrawA0: confirmed in block 12026036
   PASS  pending reward settled on withdraw (no loss, no double count)
   PASS  A share of pool 0 dropped after partial withdraw
   waiting 66s for accrual ...
+farm 0xA76DEf3427e4BBC696E9F7cCa5906b65a6595B00: start 1793355168, end 1793362368, now 1793356380, rewardPerPool 40000.0, duration 7200s
+skip test 0-A-gives-B-LP
+skip test 1-A-stakes-pool0
+skip test 2-B-joins-pool0-later
+skip test 3-A-stakes-pool1
+
+== 4-A-partial-withdraw-pool0
+skip withdrawA0: 0x2a5d3158378ac54680329801da786a4c683088fa5ad58312b10917c24840810d
+  PASS  withdraw returned exactly the LP amount to A
+  PASS  pending reward settled on withdraw (no loss, no double count)
+  PASS  A share of pool 0 dropped after partial withdraw
+  PASS  A earned(0) after withdraw follows the lower rate
+  PASS  pool 1 accrual unaffected by the pool 0 withdraw (independent pools)
+
+== 5-A-claims-pool0-twice
+claimA0_1: sent 0xf302e8243a4028f03aeb06d830aa5ffac0b5e51e55e26f224c7aa465bf5e18f3
+claimA0_1: confirmed in block 12026100
+  PASS  claim #1: Claimed event == GROUP3 balance delta, > 0
+  PASS  claim #1 paid earned() of the previous block + that block's accrual
+  PASS  earned(0) == 0 right after claim
+claimA0_2: sent 0x84dc03f5dca453cc143bbc21209e3336912605b92d1221460f52f4ed91102306
+claimA0_2: confirmed in block 12026103
+  PASS  claim #2: Claimed event == GROUP3 balance delta
+  PASS  claim #2 paid only the accrual since claim #1
+  PASS  claim #2 < claim #1 (old amount never paid again)
+
+== 6-wrong-pool-and-wrong-token
+  PASS  staticCall stake(5, 1) reverts (unknown pool)
+  PASS  estimateGas stake(5, 1) reverts
+  PASS  precondition: A's LP0 allowance to farm is 0
+approveSTCRtoFarm: sent 0xf168109651ec422dd67a2461d60e903e9febc8018d7348b84e48c18fb7763017
+approveSTCRtoFarm: confirmed in block 12026105
+  PASS  with only STCR approved, staticCall stake(0, 1e18) reverts (farm pulls only the pool's LP)
+  PASS  farm holds 0 STCR
+
+== 7-fund-check
+  PASS  sum(allocated) <= totalFund
+  PASS  totalPaid + earned(A) + earned(B) <= totalFund
+  PASS  farm GROUP3 balance covers totalFund - totalPaid
+  PASS  totalEarned(A) == sum of earned(A, i)
+  PASS  farm LP0 balance covers pool 0 totalStaked (principal separate from rewards)
+  PASS  farm LP1 balance covers pool 1 totalStaked (principal separate from rewards)
+Cannot read properties of undefined (reading 'balanceOf')

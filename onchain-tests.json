@@ -11,7 +11,11 @@
     "stakeB0": "0xcde69d56c5085a9e8926905bfa1be257682b6171a67c2c2011f8ef7e4b6370ff",
     "approveA1": "0x527e741ae5831163136f32de9b82d69d38fc17f3454cf8eafde377ccdf3020bd",
     "stakeA1": "0x94d53a413bc8c90d5078f253524605d8fcc92c2d0395d32a1a47218206015eff",
-    "withdrawA0": "0x2a5d3158378ac54680329801da786a4c683088fa5ad58312b10917c24840810d"
+    "withdrawA0": "0x2a5d3158378ac54680329801da786a4c683088fa5ad58312b10917c24840810d",
+    "claimA0_1": "0xf302e8243a4028f03aeb06d830aa5ffac0b5e51e55e26f224c7aa465bf5e18f3",
+    "claimA0_2": "0x84dc03f5dca453cc143bbc21209e3336912605b92d1221460f52f4ed91102306",
+    "approveSTCRtoFarm": "0xf168109651ec422dd67a2461d60e903e9febc8018d7348b84e48c18fb7763017",
+    "claimAllB": "0xa905145f9d807fd6458fa7f627e01fa80861e43990213f9f3753c8408baf7f7f"
   },
   "blocks": {
     "lpToB0": {
@@ -49,6 +53,22 @@
     "withdrawA0": {
       "block": 12026036,
       "timestamp": 1793355624
+    },
+    "claimA0_1": {
+      "block": 12026100,
+      "timestamp": 1793356392
+    },
+    "claimA0_2": {
+      "block": 12026103,
+      "timestamp": 1793356428
+    },
+    "approveSTCRtoFarm": {
+      "block": 12026105,
+      "timestamp": 1793356452
+    },
+    "claimAllB": {
+      "block": 12026108,
+      "timestamp": 1793356488
     }
   },
   "steps": {
@@ -227,9 +247,186 @@
           "pass": true,
           "before": "8944271909999158785236/13416407864998738177854",
           "after": "4472135954999579392618/8944271909999158785236"
+        },
+        {
+          "name": "A earned(0) after withdraw follows the lower rate",
+          "result": "PASS",
+          "poolId": 0,
+          "b1": 12026036,
+          "b2": 12026098,
+          "t1": "1793355624",
+          "t2": "1793356368",
+          "stake": "4472135954999579392618",
+          "totalStaked": "8944271909999158785236",
+          "earned1": "1533333333333333317838",
+          "earned2": "3599999999999999983258",
+          "got": "2066666666666666665420",
+          "expected": "2066666666666666666666"
+        },
+        {
+          "name": "pool 1 accrual unaffected by the pool 0 withdraw (independent pools)",
+          "result": "PASS",
+          "poolId": 1,
+          "b1": 12026035,
+          "b2": 12026098,
+          "t1": "1793355612",
+          "t2": "1793356368",
+          "stake": "35777087639996635142146",
+          "totalStaked": "35777087639996635142146",
+          "earned1": "466666666666666658466",
+          "earned2": "4666666666666666656219",
+          "got": "4199999999999999997753",
+          "expected": "4200000000000000000000"
         }
       ],
-      "amount": "4472135954999579392618"
+      "amount": "4472135954999579392618",
+      "done": true,
+      "finishedAt": "2026-10-30T10:33:09.724Z"
+    },
+    "5-A-claims-pool0-twice": {
+      "checks": [
+        {
+          "name": "claim #1: Claimed event == GROUP3 balance delta, > 0",
+          "result": "PASS",
+          "block": 12026100,
+          "claimed": "3666666666666666650029",
+          "balanceDelta": "3666666666666666650029"
+        },
+        {
+          "name": "claim #1 paid earned() of the previous block + that block's accrual",
+          "result": "PASS",
+          "claimed": "3666666666666666650029",
+          "earnedBefore": "3633333333333333316644",
+          "accrual": "33333333333333333333"
+        },
+        {
+          "name": "earned(0) == 0 right after claim",
+          "result": "PASS"
+        },
+        {
+          "name": "claim #2: Claimed event == GROUP3 balance delta",
+          "result": "PASS",
+          "block": 12026103,
+          "claimed": "99999999999999995684",
+          "balanceDelta": "99999999999999995684"
+        },
+        {
+          "name": "claim #2 paid only the accrual since claim #1",
+          "result": "PASS",
+          "claimed": "99999999999999995684",
+          "expected": "100000000000000000000",
+          "t1": "1793356392",
+          "t2": "1793356428"
+        },
+        {
+          "name": "claim #2 < claim #1 (old amount never paid again)",
+          "result": "PASS",
+          "claim1": "3666666666666666650029",
+          "claim2": "99999999999999995684"
+        }
+      ],
+      "done": true,
+      "finishedAt": "2026-10-30T10:34:03.756Z"
+    },
+    "6-wrong-pool-and-wrong-token": {
+      "checks": [
+        {
+          "name": "staticCall stake(5, 1) reverts (unknown pool)",
+          "result": "PASS"
+        },
+        {
+          "name": "estimateGas stake(5, 1) reverts",
+          "result": "PASS"
+        },
+        {
+          "name": "precondition: A's LP0 allowance to farm is 0",
+          "result": "PASS",
+          "allowance": "0"
+        },
+        {
+          "name": "with only STCR approved, staticCall stake(0, 1e18) reverts (farm pulls only the pool's LP)",
+          "result": "PASS"
+        },
+        {
+          "name": "farm holds 0 STCR",
+          "result": "PASS",
+          "farmSTCR": "0"
+        }
+      ],
+      "done": true,
+      "finishedAt": "2026-10-30T10:34:30.737Z"
+    },
+    "7-fund-check": {
+      "checks": [
+        {
+          "name": "sum(allocated) <= totalFund",
+          "result": "PASS",
+          "block": 12026106,
+          "allocated": "6399999999999999999999",
+          "totalFund": "120000000000000000000000"
+        },
+        {
+          "name": "totalPaid + earned(A) + earned(B) <= totalFund",
+          "result": "PASS",
+          "totalPaid": "3766666666666666645713",
+          "earnedA": "5299999999999999986087",
+          "earnedB": "2733333333333333319712",
+          "totalFund": "120000000000000000000000"
+        },
+        {
+          "name": "farm GROUP3 balance covers totalFund - totalPaid",
+          "result": "PASS",
+          "balance": "116233333333333333354287",
+          "owed": "116233333333333333354287"
+        },
+        {
+          "name": "totalEarned(A) == sum of earned(A, i)",
+          "result": "PASS"
+        },
+        {
+          "name": "farm LP0 balance covers pool 0 totalStaked (principal separate from rewards)",
+          "result": "PASS",
+          "lpBalance": "8944271909999158785236",
+          "totalStaked": "8944271909999158785236"
+        },
+        {
+          "name": "farm LP1 balance covers pool 1 totalStaked (principal separate from rewards)",
+          "result": "PASS",
+          "lpBalance": "35777087639996635142146",
+          "totalStaked": "35777087639996635142146"
+        },
+        {
+          "name": "farm LP2 balance covers pool 2 totalStaked (principal separate from rewards)",
+          "result": "PASS",
+          "lpBalance": "0",
+          "totalStaked": "0"
+        }
+      ],
+      "done": true,
+      "finishedAt": "2026-10-30T10:34:46.391Z"
+    },
+    "8-B-claimAll": {
+      "checks": [
+        {
+          "name": "claimAll: Claimed events == GROUP3 balance delta, > 0",
+          "result": "PASS",
+          "block": 12026108,
+          "claimed": "2799999999999999986483",
+          "balanceDelta": "2799999999999999986483"
+        },
+        {
+          "name": "claimAll paid all pools' earned()",
+          "result": "PASS",
+          "claimed": "2799999999999999986483",
+          "expected": "2799999999999999986430"
+        },
+        {
+          "name": "totalEarned(B) == 0 right after claimAll",
+          "result": "PASS"
+        }
+      ],
+      "done": true,
+      "finishedAt": "2026-10-30T10:35:05.381Z"
     }
   }
 }

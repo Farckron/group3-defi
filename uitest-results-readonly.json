@@ -1,0 +1,80 @@
+{
+  "url": "http://localhost:8765/",
+  "wallet": "0x7acf8A4f96417c8714E8564A45E34c0DA224EF16",
+  "readonly": true,
+  "time": "2026-10-30T10:36:28.254Z",
+  "passed": 14,
+  "total": 14,
+  "results": [
+    {
+      "name": "Page loads without JS errors",
+      "ok": true,
+      "detail": "no pageerror / console.error"
+    },
+    {
+      "name": "Connect shows wallet B",
+      "ok": true,
+      "detail": "account=\"0x7acf8A4f96417c8714E8564A45E34c0DA224EF16\", button=\"Connected\""
+    },
+    {
+      "name": "Network shown as Sepolia",
+      "ok": true,
+      "detail": "chainMsg=\"Network: Sepolia\""
+    },
+    {
+      "name": "GROUP3 balance shown",
+      "ok": true,
+      "detail": "UI \"99,582,800 GROUP3\" vs chain \"99,582,800 GROUP3\""
+    },
+    {
+      "name": "Campaign status/start/end/remaining shown",
+      "ok": true,
+      "detail": "{\"campStatus\":\"active\",\"campStart\":\"30/10/2026, 12:12:48\",\"campEnd\":\"30/10/2026, 14:12:48\",\"campLeft\":\"01:36:22\",\"campFund\":\"120,000 GROUP3\",\"campPaid\":\"6,566.666667 GROUP3\"}"
+    },
+    {
+      "name": "Pool 0 data shown",
+      "ok": true,
+      "detail": "{\"name\":\"STCR / GROUP3\",\"lpBal\":\"0 LP\",\"stake\":\"4,472.135955 LP\",\"total\":\"8,944.27191 LP\",\"share\":\"50%\",\"earned\":\"233.333333\"} chain lpBal=0 stake=4,472.135955"
+    },
+    {
+      "name": "Pool 1 data shown",
+      "ok": true,
+      "detail": "{\"name\":\"CAFE / GROUP3\",\"lpBal\":\"17,888.54382 LP\",\"stake\":\"0 LP\",\"total\":\"35,777.08764 LP\",\"share\":\"0%\",\"earned\":\"0\"} chain lpBal=17,888.54382 stake=0"
+    },
+    {
+      "name": "Pool 2 data shown",
+      "ok": true,
+      "detail": "{\"name\":\"SLV072 / GROUP3\",\"lpBal\":\"0 LP\",\"stake\":\"0 LP\",\"total\":\"0 LP\",\"share\":\"0%\",\"earned\":\"0\"} chain lpBal=0 stake=0"
+    },
+    {
+      "name": "Validation: amount 0 refused",
+      "ok": true,
+      "detail": "status=\"Amount must be greater than zero.\", sends=0"
+    },
+    {
+      "name": "Validation: above LP balance refused",
+      "ok": true,
+      "detail": "status=\"Amount exceeds your LP balance (17888.543819998317571073 LP).\", sends=0"
+    },
+    {
+      "name": "Validation: withdraw above stake refused",
+      "ok": true,
+      "detail": "status=\"Amount exceeds your stake (0.0 LP).\", sends=0"
+    },
+    {
+      "name": "Wallet rejection shown",
+      "ok": true,
+      "detail": "status=\"Approve: rejected in wallet.\", seen=[\"Approve: waiting for wallet confirmation...\",\"Approve: rejected in wallet.\"]"
+    },
+    {
+      "name": "Wrong network detected",
+      "ok": true,
+      "detail": "switch visible=true, actions disabled=true, chainMsg=\"Wrong network (chain 1). Read-only until you switch to Sepolia.\""
+    },
+    {
+      "name": "Switch to Sepolia works",
+      "ok": true,
+      "detail": "chainMsg=\"Network: Sepolia\", switch hidden, actions enabled"
+    }
+  ]
+}

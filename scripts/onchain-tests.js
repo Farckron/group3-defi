@@ -30,7 +30,7 @@ const close = (got, exp) => { const d = got > exp ? got - exp : exp - got; retur
   const farm = new Contract(dep.farm, c.art("GroupFarm").abi, wA);
   const farmB = farm.connect(wB);
   const g3 = c.erc20(dep.groupToken, provider);
-  const lp = dep.pairs.map(p => new Contract(p.pair, c.PAIR_ABI, provider));
+  const lp = [0, 1, 2].map(i => new Contract(dep.pairs[i]?.pair || dep.pairAddr[i], c.PAIR_ABI, provider)); // pool 2 may still be the empty pair
   const [RPP, DUR, START, END] = await Promise.all([farm.rewardPerPool(), farm.duration(), farm.startTime(), farm.endTime()]);
 
   const tsCache = {};

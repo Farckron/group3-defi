@@ -15,7 +15,7 @@ const c = require("./common");
   for (const [n, u] of users)
     console.log(`  ${n} ${u}: GROUP3 ${c.fmt(await g3.balanceOf(u))}, ETH ${c.fmt(await provider.getBalance(u))}`);
 
-  const pairs = (d.pairs || []).map(p => ({ ...p, ct: new Contract(p.pair, c.PAIR_ABI, provider) }));
+  const pairs = (d.pairs || []).filter(Boolean).map(p => ({ ...p, ct: new Contract(p.pair, c.PAIR_ABI, provider) }));
   for (const p of pairs) {
     const [r0, r1] = await p.ct.getReserves();
     const bals = await Promise.all(users.map(([, u]) => p.ct.balanceOf(u)));
