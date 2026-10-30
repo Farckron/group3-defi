@@ -1,0 +1,31 @@
+
+
+  GroupFarm
+    Section 9 tests
+      ✔ One staker: receives the whole reward for the active participation time (865ms)
+      ✔ Second staker joins later: gets nothing for the time before joining
+      ✔ Multiple pools: each pool is accounted independently
+      ✔ Partial withdraw: later reward matches the smaller stake
+      ✔ Repeated claim: already-paid reward cannot be claimed again
+      ✔ Empty pool: reward for empty time is not given to the next staker
+      ✔ Campaign end: no new rewards accrue, but claim and withdraw still work
+      ✔ Wrong token: cannot be submitted as a registered LP (67ms)
+      ✔ Fund check: paid plus pending never exceeds the funded budget (338ms)
+    Worked example from the task (final config 120 min, 40,000 per pool)
+      ✔ A 100 LP and B 300 LP for one full 3-minute interval: A gets 250, B gets 750 (99ms)
+    Session start
+      ✔ startSession reverts if underfunded, and works once the full fund is in (67ms)
+      ✔ startSession can be called only once
+      ✔ non-owner cannot start the session
+      ✔ no rewards accrue before the start
+    Principal recovery
+      ✔ withdraw works before the start and after the end
+    Rounding and decimals
+        rounding dust left in pool 0: 34 wei
+      ✔ total claims of a pool never exceed rewardPerPool and the dust is tiny (42ms)
+      ✔ rewardDebt rounding can over-allocate a few wei, but no claim reverts (151ms)
+      ✔ GROUP3 token has the fixed supply, all minted to the deployer
+
+
+  18 passing (2s)
+

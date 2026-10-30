@@ -1,0 +1,15 @@
+{
+  "farm": "0xA76DEf3427e4BBC696E9F7cCa5906b65a6595B00",
+  "walletA": "0x2E5fb463721ff810cF0CEAc0aD9d0B3b2e020515",
+  "walletB": "0x7acf8A4f96417c8714E8564A45E34c0DA224EF16",
+  "txs": {
+    "lpToB0": "0x808a673dc199017d87cc5bf0e59d2da0a0d39bc9ef753a3dc09edb55345e89ae"
+  },
+  "blocks": {},
+  "steps": {
+    "0-A-gives-B-LP": {
+      "checks": [],
+      "amount0": "4472135954999579392618"
+    }
+  }
+}

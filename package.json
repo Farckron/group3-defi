@@ -1,0 +1,18 @@
+{
+  "name": "group3-defi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Group 3 DeFi on Sepolia: GROUP3 token, Uniswap v2 pools, GroupFarm LP staking",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.29.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1"
+  }
+}

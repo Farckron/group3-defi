@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group 3 Farm</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5b6470;
+    --border: #d9dde3; --accent: #2f6fde; --accent-text: #ffffff;
+    --ok: #18794e; --warn: #9a6700; --err: #c62828;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111418; --card: #1a1f25; --text: #e6e9ed; --muted: #9aa4b0;
+      --border: #2c333c; --accent: #5b93f5; --accent-text: #0b0e12;
+      --ok: #4cc38a; --warn: #e0b341; --err: #ff6b6b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.1rem; margin: 0 0 8px; }
+  p { margin: 4px 0; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px; margin: 12px 0;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .grid .card { margin: 0; }
+  .big { font-size: 1.4rem; font-weight: 600; }
+  .addr, .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; overflow-wrap: anywhere; }
+  button {
+    font: inherit; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--accent); background: var(--accent); color: var(--accent-text);
+  }
+  button.secondary { background: transparent; color: var(--accent); }
+  button.small { padding: 4px 10px; font-size: 0.85rem; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  input {
+    font: inherit; width: 100%; max-width: 100%; padding: 8px;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .row + .row { margin-top: 8px; }
+  .warn { color: var(--warn); }
+  .ok { color: var(--ok); }
+  .bad { color: var(--err); }
+  .banner { border-color: var(--warn); }
+  dl.kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 8px 0; }
+  dl.kv dt { color: var(--muted); font-size: 0.9rem; }
+  dl.kv dd { margin: 0; overflow-wrap: anywhere; }
+  .status { overflow-wrap: anywhere; min-height: 1.5em; font-size: 0.9rem; margin-top: 8px; }
+  ol { margin: 4px 0; padding-left: 20px; }
+  footer { margin: 24px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Group 3 Farm</h1>
+  <p class="muted">Stake Uniswap v2 LP tokens and earn GROUP3 on Ethereum Sepolia.</p>
+
+  <section class="card banner" id="notDeployed" hidden>
+    <h2 class="warn">Not deployed yet</h2>
+    <p id="notDeployedMsg"></p>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <button id="connectBtn" type="button">Connect Wallet</button>
+      <button id="switchBtn" type="button" class="secondary" hidden>Switch to Sepolia</button>
+    </div>
+    <p>Account: <span id="account" class="addr">not connected</span></p>
+    <p id="walletMsg"></p>
+    <p id="chainMsg" aria-live="polite"></p>
+    <p>GROUP3 balance: <span class="big" id="groupBal">-</span></p>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Campaign</h2>
+      <dl class="kv">
+        <dt>Status</dt><dd id="campStatus">-</dd>
+        <dt>Start</dt><dd id="campStart">-</dd>
+        <dt>End</dt><dd id="campEnd">-</dd>
+        <dt>Remaining</dt><dd id="campLeft">-</dd>
+        <dt>Total fund</dt><dd id="campFund">-</dd>
+        <dt>Total paid</dt><dd id="campPaid">-</dd>
+        <dt>Fund in contract</dt><dd id="campBalance">-</dd>
+      </dl>
+      <p class="muted">Farm: <span id="farmLink">-</span></p>
+    </article>
+    <article class="card">
+      <h2>Your rewards</h2>
+      <p>Earned in all pools: <span class="big" id="totalEarned">-</span> GROUP3</p>
+      <div class="row"><button id="claimAllBtn" type="button" disabled>Claim all</button></div>
+      <p class="status" id="claimAllStatus" aria-live="polite"></p>
+    </article>
+  </section>
+
+  <h2 style="margin-top:20px">Pools</h2>
+  <section class="grid" id="pools" aria-label="Pools"></section>
+
+  <section class="card">
+    <h2>How it works</h2>
+    <ol>
+      <li>Add liquidity on Uniswap v2 (your token + GROUP3). You receive LP tokens.</li>
+      <li>Approve the farm to use your LP tokens, then Stake them here.</li>
+      <li>While the campaign is active, each pool pays a fixed amount of GROUP3 per second, split between stakers by their share of the pool.</li>
+      <li>Claim collects earned GROUP3. Withdraw returns your LP tokens (also after the campaign ends).</li>
+      <li>To get your original tokens back, remove liquidity separately: <a href="https://app.uniswap.org/positions" target="_blank" rel="noopener">Uniswap positions</a>, or call <code>removeLiquidity</code> on the <a href="https://sepolia.etherscan.io/address/0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3#writeContract" target="_blank" rel="noopener">Router02 on Etherscan</a> (approve the Router for your LP first).</li>
+    </ol>
+  </section>
+
+  <footer class="muted">
+    Testnet only (Sepolia). These tokens have no monetary value and rewards are not real profit.
+    This page never asks for a private key or seed phrase.
+  </footer>
+</main>
+
+<template id="poolTpl">
+  <article class="card">
+    <h2 data-f="name">Pool</h2>
+    <p class="muted">Pool <span data-f="id"></span> · LP: <span data-f="lp">not deployed yet</span></p>
+    <dl class="kv">
+      <dt>LP in wallet</dt><dd data-f="lpBal">-</dd>
+      <dt>Your stake</dt><dd data-f="stake">-</dd>
+      <dt>Total staked</dt><dd data-f="total">-</dd>
+      <dt>Your share</dt><dd data-f="share">-</dd>
+      <dt>Approved</dt><dd data-f="allow">-</dd>
+      <dt>Earned</dt><dd><span class="big" data-f="earned">-</span> GROUP3</dd>
+    </dl>
+    <label class="muted">Amount (LP)
+      <input data-f="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.0">
+    </label>
+    <div class="row">
+      <button data-f="maxLp" type="button" class="secondary small">Max LP</button>
+      <button data-f="maxStake" type="button" class="secondary small">Max staked</button>
+    </div>
+    <div class="row">
+      <button data-f="approve" type="button">Approve</button>
+      <button data-f="stakeBtn" type="button">Stake</button>
+      <button data-f="withdraw" type="button">Withdraw</button>
+      <button data-f="claim" type="button">Claim</button>
+    </div>
+    <p class="status" data-f="status" aria-live="polite"></p>
+    <p class="bad" data-f="err"></p>
+    <p class="muted" data-f="links"></p>
+  </article>
+</template>
+
+<script src="config.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

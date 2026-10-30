@@ -1,0 +1,64 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deployer": "0x2E5fb463721ff810cF0CEAc0aD9d0B3b2e020515",
+  "reserveWallet": "0x7acf8A4f96417c8714E8564A45E34c0DA224EF16",
+  "router": "0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3",
+  "factory": "0xF62c03E08ada871A0bEb309762E260a7a6a880E6",
+  "stcr": "0xF482674A7250dcF818cE8936946B5Bad30F0AFDD",
+  "cafe": "0x65BE388dC442AB1A6E64712dE1cE6Bb50c8dC323",
+  "slv072": "0x08945bC23e0022AE2876998EA5fd29F952A3F3E8",
+  "dzoanna": "0x99aeA2Da85075D4283A347011883bc299c259d6A",
+  "groupToken": "0xba07D78eF160Ce017FBDC4Bf3b2835ac3bcc91C6",
+  "groupTokenDeployTx": "0xa46ae05acc1e9001177fa2e2941b865aa5abb8cf88973209caf67c298e6b8791",
+  "reserveTxFailedOutOfGas": "0xf5549381e7c0909f44f2c8258bb5cbdd3af2149da5316c5e74d0e98af3a9457b",
+  "reserveTx": "0x6ebcb50c013eb491b50e1039be4a8cf96ed402e7dc690e199d6f263827e0bdd5",
+  "pairs": [
+    {
+      "poolId": 0,
+      "symbol": "STCR/GROUP3",
+      "token": "0xF482674A7250dcF818cE8936946B5Bad30F0AFDD",
+      "pair": "0x7B9945a8D8ea4507A478F7eC84fFA7a71fF4b8df",
+      "token0": "0xba07D78eF160Ce017FBDC4Bf3b2835ac3bcc91C6",
+      "token1": "0xF482674A7250dcF818cE8936946B5Bad30F0AFDD",
+      "reserves": {
+        "reserve0": "100000000000000000000000",
+        "reserve1": "5000000000000000000000"
+      },
+      "lp": "22360679774997896963091",
+      "addLiquidityTx": "0x22901cac53653ac91823cd3e7fb155f0503f267193acc3a7e8cfb507f1df4b2f"
+    },
+    {
+      "poolId": 1,
+      "symbol": "CAFE/GROUP3",
+      "token": "0x65BE388dC442AB1A6E64712dE1cE6Bb50c8dC323",
+      "pair": "0x47198D03720cF8a28e87483AfcB7fb7b6258FeF8",
+      "token0": "0x65BE388dC442AB1A6E64712dE1cE6Bb50c8dC323",
+      "token1": "0xba07D78eF160Ce017FBDC4Bf3b2835ac3bcc91C6",
+      "reserves": {
+        "reserve0": "80000000000000000000000",
+        "reserve1": "100000000000000000000000"
+      },
+      "lp": "89442719099991587855366",
+      "addLiquidityTx": "0x4f41b46b12a193203ebb810d0b8067bb8b2596772f0950d21348c0e9a0e02097"
+    }
+  ],
+  "approveSTCRTx": "0x9e21d617124d0fa6ed4b84d70c1d242a04cbe9798f5ec86465b1502c1a5c6844",
+  "approveGroup0Tx": "0xb80b84d8803920786d536f3a3b24bf8b4747c45fa1371dab52269227ac416106",
+  "addLiquidity0Tx": "0x22901cac53653ac91823cd3e7fb155f0503f267193acc3a7e8cfb507f1df4b2f",
+  "approveCAFETx": "0x21c0f7e1285858a875a2cfc33b06262505d538f532ae34a06b05063ed7f4b96e",
+  "approveGroup1Tx": "0xe0988a9d8edbc10ef368c2b88c716cc72d89b73e64c8af1cd38498d441027c68",
+  "addLiquidity1Tx": "0x4f41b46b12a193203ebb810d0b8067bb8b2596772f0950d21348c0e9a0e02097",
+  "createPair2Tx": "0xa33406fa273ef84748b196bca24c13ca3a4d0dd8674a8f824c454856dec7f115",
+  "pairAddr": {
+    "2": "0xb49465E7cbbd874C55C1b7139FC8D6CCb7b85e60"
+  },
+  "farm": "0xA76DEf3427e4BBC696E9F7cCa5906b65a6595B00",
+  "farmDeployTx": "0xfc613fb9be7e442c98022c62277a32f9d6b66033529557da633c47268b0426c6",
+  "farmDuration": "7200",
+  "farmRewardPerPool": "40000000000000000000000",
+  "farmFundTx": "0x7f4768a34524b2180afab98773f8c528fbd63e9fa1e7d2ccee2a626302ae16fa",
+  "startSessionTx": "0x2d84008901bccf0664151c8d185672b2d01df65db38887ac166724a11d81eb20",
+  "startTime": 1793355168,
+  "endTime": 1793362368
+}
