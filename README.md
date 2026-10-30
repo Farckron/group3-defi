@@ -304,11 +304,15 @@ Checked: no JS errors; connect shows B's address and Sepolia; GROUP3 balance and
 
 ## Pending (updated after the campaign)
 
-> This section is filled in by the main session after the campaign ends (14:12:48 Riga) and after Džoanna's SLV072 arrives. Everything above it is final.
+> The after-end results below are final. The pool 2 part is updated when Džoanna's SLV072 arrives.
 
 **After-end phase** (`node scripts/onchain-tests.js after`, scheduled about 14:14 Riga). Step 9 checks: `earned` frozen after `endTime` for A and B in all pools; `claimAll` after the end pays exactly `earned` (no accrual after the end); full withdraw of every remaining stake returns all LP; final `totalPaid <= sum(allocated) <= totalFund`, and how much budget was never allocated (empty pool time).
 
-- Result: _not run yet_
+- Result: **14 of 14 checks PASS** (run 14:14 to 14:17 Riga), so the on-chain total is **54 of 54 PASS**.
+- `earned` was identical at blocks 12026603 and 12026609 for A and B in every pool (for example A pool 0: 16,500.00 at both), so nothing accrues after `endTime`.
+- A's `claimAll` after the end paid 54,500.00 GROUP3, exactly the `earned` value before it (`Claimed` events = balance change); B's paid its remaining `earned` the same way. `totalEarned` was 0 for both right after. Txs: [A claimAll](https://sepolia.etherscan.io/tx/0x4ceb89c93e464ee8e8da16a3b4a9eb7973b8f051fcc8fcd031111b7768a2e0a9), [B claimAll](https://sepolia.etherscan.io/tx/0x83d2889d9db81409739aea18c3b90d7c934b75d4d811d8c4adcd5e2229ef7137).
+- Full withdraws after the end returned all LP: A 4,472.14 LP0 ([tx](https://sepolia.etherscan.io/tx/0x9eea484917dd78e1a45b81282b0e600a67cc59961b73be6753e2599977fc6609)) and 35,777.09 LP1 ([tx](https://sepolia.etherscan.io/tx/0x9c1a5a9c20e3d9d3ddc6aa6cb5701027e8f90d428039d76206833c230a6a45ea)), B 4,472.14 LP0 ([tx](https://sepolia.etherscan.io/tx/0x88034810022cf191a44a586a56849283972a82325d3ad644fbc716a166efe876)). `totalStaked` is 0 in all pools.
+- Final accounting: `totalPaid` 77,400.00 <= sum of `allocated` 77,400.00 <= `totalFund` 120,000 (the paid total is 123,495 wei below allocated, the rounding dust). Allocated per pool: pool 0 39,400 (600 lost to its empty first 108 s), pool 1 38,000 (2,000 lost to its empty first 360 s), pool 2 0 (empty for the whole campaign). The 42,600 GROUP3 never allocated stay locked in the farm, because it has no owner withdraw function.
 
 **Pool 2 (SLV072/GROUP3)**
 
@@ -316,7 +320,7 @@ Checked: no JS errors; connect shows B's address and Sepolia; GROUP3 balance and
 - `addLiquidity` 50,000 SLV072 + 100,000 GROUP3: _pending_
 - LP received and transferred to Džoanna's wallet: _pending_
 - Džoanna's stake, claim and withdraw through the web app: _pending_
-- Pool 2 budget lost to empty time: _pending_ (333.33 GROUP3 per minute from 12:12:48 Riga until her first stake)
+- Pool 2 budget lost to empty time: **all 40,000 GROUP3**. Her SLV072 did not arrive before the campaign ended at 14:12:48 Riga, so the pool had no stakers and none of its budget was allocated. This is the "empty pool" rule working as required. Her stake, claim and withdraw still work after the end; they just earn 0.
 
 ## Compiler and library versions
 

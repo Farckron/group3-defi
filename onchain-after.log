@@ -1,0 +1,30 @@
+farm 0xA76DEf3427e4BBC696E9F7cCa5906b65a6595B00: start 1793355168, end 1793362368, now 1793362452, rewardPerPool 40000.0, duration 7200s
+
+== 9-after-end
+  waiting 66s for accrual ...
+  PASS  earned(A, 0) frozen after endTime
+  PASS  earned(A, 1) frozen after endTime
+  PASS  earned(A, 2) frozen after endTime
+  PASS  earned(B, 0) frozen after endTime
+  PASS  earned(B, 1) frozen after endTime
+  PASS  earned(B, 2) frozen after endTime
+claimAllAfterA: sent 0x4ceb89c93e464ee8e8da16a3b4a9eb7973b8f051fcc8fcd031111b7768a2e0a9
+claimAllAfterA: confirmed in block 12026611
+  PASS  A claimAll after end pays exactly earned() (no accrual after end)
+  PASS  A totalEarned == 0 after claimAll
+withdrawAfterA0: sent 0x9eea484917dd78e1a45b81282b0e600a67cc59961b73be6753e2599977fc6609
+withdrawAfterA0: confirmed in block 12026613
+  PASS  A full withdraw pool 0 after end returned all LP
+withdrawAfterA1: sent 0x9c1a5a9c20e3d9d3ddc6aa6cb5701027e8f90d428039d76206833c230a6a45ea
+withdrawAfterA1: confirmed in block 12026615
+  PASS  A full withdraw pool 1 after end returned all LP
+claimAllAfterB: sent 0x83d2889d9db81409739aea18c3b90d7c934b75d4d811d8c4adcd5e2229ef7137
+claimAllAfterB: confirmed in block 12026617
+  PASS  B claimAll after end pays exactly earned() (no accrual after end)
+  PASS  B totalEarned == 0 after claimAll
+withdrawAfterB0: sent 0x88034810022cf191a44a586a56849283972a82325d3ad644fbc716a166efe876
+withdrawAfterB0: confirmed in block 12026620
+  PASS  B full withdraw pool 0 after end returned all LP
+  PASS  final: totalPaid <= sum(allocated) <= totalFund
+
+results so far: 54 PASS, 0 FAIL, 0 SKIP -> onchain-tests.json

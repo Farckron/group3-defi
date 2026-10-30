@@ -15,7 +15,12 @@
     "claimA0_1": "0xf302e8243a4028f03aeb06d830aa5ffac0b5e51e55e26f224c7aa465bf5e18f3",
     "claimA0_2": "0x84dc03f5dca453cc143bbc21209e3336912605b92d1221460f52f4ed91102306",
     "approveSTCRtoFarm": "0xf168109651ec422dd67a2461d60e903e9febc8018d7348b84e48c18fb7763017",
-    "claimAllB": "0xa905145f9d807fd6458fa7f627e01fa80861e43990213f9f3753c8408baf7f7f"
+    "claimAllB": "0xa905145f9d807fd6458fa7f627e01fa80861e43990213f9f3753c8408baf7f7f",
+    "claimAllAfterA": "0x4ceb89c93e464ee8e8da16a3b4a9eb7973b8f051fcc8fcd031111b7768a2e0a9",
+    "withdrawAfterA0": "0x9eea484917dd78e1a45b81282b0e600a67cc59961b73be6753e2599977fc6609",
+    "withdrawAfterA1": "0x9c1a5a9c20e3d9d3ddc6aa6cb5701027e8f90d428039d76206833c230a6a45ea",
+    "claimAllAfterB": "0x83d2889d9db81409739aea18c3b90d7c934b75d4d811d8c4adcd5e2229ef7137",
+    "withdrawAfterB0": "0x88034810022cf191a44a586a56849283972a82325d3ad644fbc716a166efe876"
   },
   "blocks": {
     "lpToB0": {
@@ -69,6 +74,26 @@
     "claimAllB": {
       "block": 12026108,
       "timestamp": 1793356488
+    },
+    "claimAllAfterA": {
+      "block": 12026611,
+      "timestamp": 1793362536
+    },
+    "withdrawAfterA0": {
+      "block": 12026613,
+      "timestamp": 1793362560
+    },
+    "withdrawAfterA1": {
+      "block": 12026615,
+      "timestamp": 1793362584
+    },
+    "claimAllAfterB": {
+      "block": 12026617,
+      "timestamp": 1793362608
+    },
+    "withdrawAfterB0": {
+      "block": 12026620,
+      "timestamp": 1793362644
     }
   },
   "steps": {
@@ -427,6 +452,123 @@
       ],
       "done": true,
       "finishedAt": "2026-10-30T10:35:05.381Z"
+    },
+    "9-after-end": {
+      "checks": [
+        {
+          "name": "earned(A, 0) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "16499999999999999994453",
+          "earnedY": "16499999999999999994453"
+        },
+        {
+          "name": "earned(A, 1) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "37999999992546440201189",
+          "earnedY": "37999999992546440201189"
+        },
+        {
+          "name": "earned(A, 2) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "0",
+          "earnedY": "0"
+        },
+        {
+          "name": "earned(B, 0) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "13666666666666666665641",
+          "earnedY": "13666666666666666665641"
+        },
+        {
+          "name": "earned(B, 1) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "7453559716666",
+          "earnedY": "7453559716666"
+        },
+        {
+          "name": "earned(B, 2) frozen after endTime",
+          "result": "PASS",
+          "x": 12026603,
+          "y": 12026609,
+          "earnedX": "0",
+          "earnedY": "0"
+        },
+        {
+          "name": "A claimAll after end pays exactly earned() (no accrual after end)",
+          "result": "PASS",
+          "block": 12026611,
+          "claimed": "54499999992546440195642",
+          "balanceDelta": "54499999992546440195642",
+          "earnedBefore": "54499999992546440195642"
+        },
+        {
+          "name": "A totalEarned == 0 after claimAll",
+          "result": "PASS"
+        },
+        {
+          "name": "A full withdraw pool 0 after end returned all LP",
+          "result": "PASS",
+          "amount": "4472135954999579392618",
+          "got": "4472135954999579392618"
+        },
+        {
+          "name": "A full withdraw pool 1 after end returned all LP",
+          "result": "PASS",
+          "amount": "35777087639996635142146",
+          "got": "35777087639996635142146"
+        },
+        {
+          "name": "B claimAll after end pays exactly earned() (no accrual after end)",
+          "result": "PASS",
+          "block": 12026617,
+          "claimed": "13666666674120226382307",
+          "balanceDelta": "13666666674120226382307",
+          "earnedBefore": "13666666674120226382307"
+        },
+        {
+          "name": "B totalEarned == 0 after claimAll",
+          "result": "PASS"
+        },
+        {
+          "name": "B full withdraw pool 0 after end returned all LP",
+          "result": "PASS",
+          "amount": "4472135954999579392618",
+          "got": "4472135954999579392618"
+        },
+        {
+          "name": "final: totalPaid <= sum(allocated) <= totalFund",
+          "result": "PASS",
+          "totalPaid": "77399999999999999876502",
+          "allocated": "77399999999999999999997",
+          "totalFund": "120000000000000000000000",
+          "farmBalance": "42600000000000000123498",
+          "unallocatedBurned": "42600000000000000000003",
+          "totalStaked": [
+            "0",
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "x": 12026603,
+      "stakeA0": "4472135954999579392618",
+      "stakeA1": "35777087639996635142146",
+      "stakeA2": "0",
+      "stakeB0": "4472135954999579392618",
+      "stakeB1": "0",
+      "stakeB2": "0",
+      "done": true,
+      "finishedAt": "2026-10-30T12:17:41.697Z"
     }
   }
 }
