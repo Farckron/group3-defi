@@ -3,13 +3,233 @@
   "walletA": "0x2E5fb463721ff810cF0CEAc0aD9d0B3b2e020515",
   "walletB": "0x7acf8A4f96417c8714E8564A45E34c0DA224EF16",
   "txs": {
-    "lpToB0": "0x808a673dc199017d87cc5bf0e59d2da0a0d39bc9ef753a3dc09edb55345e89ae"
+    "lpToB0": "0x808a673dc199017d87cc5bf0e59d2da0a0d39bc9ef753a3dc09edb55345e89ae",
+    "lpToB1": "0xa0c918e9e50abc511d55dd0223c9f8d2673fd27a7f9dcc43d023f2165777ae2e",
+    "approveA0": "0x352b218a438013dfec0d9733a0255c11ac01b92640d98fa3d78a1a49a7b8f4b6",
+    "stakeA0": "0x54fd622f17908051a7c588986ff9f405a5598131ffa2e4ed80c5a25243cb7a48",
+    "approveB0": "0xe44536d5777e7ef8b1f9e6f7da9f8baccf8f41c4b1dae764976ddafd25b84c14",
+    "stakeB0": "0xcde69d56c5085a9e8926905bfa1be257682b6171a67c2c2011f8ef7e4b6370ff",
+    "approveA1": "0x527e741ae5831163136f32de9b82d69d38fc17f3454cf8eafde377ccdf3020bd",
+    "stakeA1": "0x94d53a413bc8c90d5078f253524605d8fcc92c2d0395d32a1a47218206015eff",
+    "withdrawA0": "0x2a5d3158378ac54680329801da786a4c683088fa5ad58312b10917c24840810d"
   },
-  "blocks": {},
+  "blocks": {
+    "lpToB0": {
+      "block": 12026002,
+      "timestamp": 1793355204
+    },
+    "lpToB1": {
+      "block": 12026004,
+      "timestamp": 1793355228
+    },
+    "approveA0": {
+      "block": 12026006,
+      "timestamp": 1793355252
+    },
+    "stakeA0": {
+      "block": 12026008,
+      "timestamp": 1793355276
+    },
+    "approveB0": {
+      "block": 12026015,
+      "timestamp": 1793355372
+    },
+    "stakeB0": {
+      "block": 12026018,
+      "timestamp": 1793355408
+    },
+    "approveA1": {
+      "block": 12026026,
+      "timestamp": 1793355504
+    },
+    "stakeA1": {
+      "block": 12026028,
+      "timestamp": 1793355528
+    },
+    "withdrawA0": {
+      "block": 12026036,
+      "timestamp": 1793355624
+    }
+  },
   "steps": {
     "0-A-gives-B-LP": {
-      "checks": [],
-      "amount0": "4472135954999579392618"
+      "checks": [
+        {
+          "name": "B received 20% of A's LP in pool 0",
+          "result": "PASS",
+          "amount": "4472135954999579392618",
+          "got": "4472135954999579392618"
+        },
+        {
+          "name": "B received 20% of A's LP in pool 1",
+          "result": "PASS",
+          "amount": "17888543819998317571073",
+          "got": "17888543819998317571073"
+        }
+      ],
+      "amount0": "4472135954999579392618",
+      "amount1": "17888543819998317571073",
+      "done": true,
+      "finishedAt": "2026-10-30T10:14:04.606Z"
+    },
+    "1-A-stakes-pool0": {
+      "checks": [
+        {
+          "name": "stakeOf(0, A) grew by the staked amount",
+          "result": "PASS",
+          "amount": "8944271909999158785236",
+          "delta": "8944271909999158785236"
+        },
+        {
+          "name": "B has no stake in pool 0 yet",
+          "result": "PASS"
+        },
+        {
+          "name": "A earned(0) grew by rewardPerPool*dt/duration*share",
+          "result": "PASS",
+          "poolId": 0,
+          "b1": 12026008,
+          "b2": 12026013,
+          "t1": "1793355276",
+          "t2": "1793355336",
+          "stake": "8944271909999158785236",
+          "totalStaked": "8944271909999158785236",
+          "earned1": "0",
+          "earned2": "333333333333333324909",
+          "got": "333333333333333324909",
+          "expected": "333333333333333333333"
+        },
+        {
+          "name": "A earned(0) > 0 after ~60 s",
+          "result": "PASS",
+          "got": "333333333333333324909"
+        },
+        {
+          "name": "B (not staked) earned(0) == 0",
+          "result": "PASS",
+          "earnedB": "0",
+          "block": 12026013
+        }
+      ],
+      "amount": "8944271909999158785236",
+      "done": true,
+      "finishedAt": "2026-10-30T10:16:00.638Z"
+    },
+    "2-B-joins-pool0-later": {
+      "checks": [
+        {
+          "name": "B earned(0) == 0 at its join block (nothing from before joining)",
+          "result": "PASS",
+          "block": 12026018,
+          "earned": "0"
+        },
+        {
+          "name": "A share of pool 0 dropped when B joined",
+          "result": "PASS",
+          "pass": true,
+          "before": "8944271909999158785236/8944271909999158785236",
+          "after": "8944271909999158785236/13416407864998738177854"
+        },
+        {
+          "name": "B earned(0) since join == formula with pool totals",
+          "result": "PASS",
+          "poolId": 0,
+          "b1": 12026018,
+          "b2": 12026024,
+          "t1": "1793355408",
+          "t2": "1793355480",
+          "stake": "4472135954999579392618",
+          "totalStaked": "13416407864998738177854",
+          "earned1": "0",
+          "earned2": "133333333333333329070",
+          "got": "133333333333333329070",
+          "expected": "133333333333333333333"
+        },
+        {
+          "name": "B earned(0) > 0 after ~60 s",
+          "result": "PASS",
+          "got": "133333333333333329070"
+        },
+        {
+          "name": "A earned(0) after B joined == formula with new share",
+          "result": "PASS",
+          "poolId": 0,
+          "b1": 12026018,
+          "b2": 12026024,
+          "t1": "1793355408",
+          "t2": "1793355480",
+          "stake": "8944271909999158785236",
+          "totalStaked": "13416407864998738177854",
+          "earned1": "733333333333333325533",
+          "earned2": "999999999999999983672",
+          "got": "266666666666666658139",
+          "expected": "266666666666666666666"
+        }
+      ],
+      "amount": "4472135954999579392618",
+      "done": true,
+      "finishedAt": "2026-10-30T10:18:12.847Z"
+    },
+    "3-A-stakes-pool1": {
+      "checks": [
+        {
+          "name": "stakeOf(1, A) grew by the staked amount",
+          "result": "PASS",
+          "amount": "35777087639996635142146",
+          "delta": "35777087639996635142146"
+        },
+        {
+          "name": "A earned(1) == formula for pool 1",
+          "result": "PASS",
+          "poolId": 1,
+          "b1": 12026028,
+          "b2": 12026033,
+          "t1": "1793355528",
+          "t2": "1793355588",
+          "stake": "35777087639996635142146",
+          "totalStaked": "35777087639996635142146",
+          "earned1": "0",
+          "earned2": "333333333333333307032",
+          "got": "333333333333333307032",
+          "expected": "333333333333333333333"
+        }
+      ],
+      "amount1": "35777087639996635142146",
+      "done": true,
+      "finishedAt": "2026-10-30T10:20:12.716Z"
+    },
+    "4-A-partial-withdraw-pool0": {
+      "checks": [
+        {
+          "name": "withdraw returned exactly the LP amount to A",
+          "result": "PASS",
+          "amount": "4472135954999579392618",
+          "got": "4472135954999579392618"
+        },
+        {
+          "name": "pending reward settled on withdraw (no loss, no double count)",
+          "result": "PASS",
+          "poolId": 0,
+          "b1": 12026035,
+          "b2": 12026036,
+          "t1": "1793355612",
+          "t2": "1793355624",
+          "stake": "8944271909999158785236",
+          "totalStaked": "13416407864998738177854",
+          "earned1": "1488888888888888879287",
+          "earned2": "1533333333333333317838",
+          "got": "44444444444444438551",
+          "expected": "44444444444444444444"
+        },
+        {
+          "name": "A share of pool 0 dropped after partial withdraw",
+          "result": "PASS",
+          "pass": true,
+          "before": "8944271909999158785236/13416407864998738177854",
+          "after": "4472135954999579392618/8944271909999158785236"
+        }
+      ],
+      "amount": "4472135954999579392618"
     }
   }
 }

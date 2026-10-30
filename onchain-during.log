@@ -3,3 +3,48 @@ farm 0xA76DEf3427e4BBC696E9F7cCa5906b65a6595B00: start 1793355168, end 179336236
 == 0-A-gives-B-LP
 lpToB0: sent 0x808a673dc199017d87cc5bf0e59d2da0a0d39bc9ef753a3dc09edb55345e89ae
 lpToB0: confirmed in block 12026002
+  PASS  B received 20% of A's LP in pool 0
+lpToB1: sent 0xa0c918e9e50abc511d55dd0223c9f8d2673fd27a7f9dcc43d023f2165777ae2e
+lpToB1: confirmed in block 12026004
+  PASS  B received 20% of A's LP in pool 1
+
+== 1-A-stakes-pool0
+approveA0: sent 0x352b218a438013dfec0d9733a0255c11ac01b92640d98fa3d78a1a49a7b8f4b6
+approveA0: confirmed in block 12026006
+stakeA0: sent 0x54fd622f17908051a7c588986ff9f405a5598131ffa2e4ed80c5a25243cb7a48
+stakeA0: confirmed in block 12026008
+  PASS  stakeOf(0, A) grew by the staked amount
+  PASS  B has no stake in pool 0 yet
+  waiting 66s for accrual ...
+  PASS  A earned(0) grew by rewardPerPool*dt/duration*share
+  PASS  A earned(0) > 0 after ~60 s
+  PASS  B (not staked) earned(0) == 0
+
+== 2-B-joins-pool0-later
+approveB0: sent 0xe44536d5777e7ef8b1f9e6f7da9f8baccf8f41c4b1dae764976ddafd25b84c14
+approveB0: confirmed in block 12026015
+stakeB0: sent 0xcde69d56c5085a9e8926905bfa1be257682b6171a67c2c2011f8ef7e4b6370ff
+stakeB0: confirmed in block 12026018
+  PASS  B earned(0) == 0 at its join block (nothing from before joining)
+  PASS  A share of pool 0 dropped when B joined
+  waiting 66s for accrual ...
+  PASS  B earned(0) since join == formula with pool totals
+  PASS  B earned(0) > 0 after ~60 s
+  PASS  A earned(0) after B joined == formula with new share
+
+== 3-A-stakes-pool1
+approveA1: sent 0x527e741ae5831163136f32de9b82d69d38fc17f3454cf8eafde377ccdf3020bd
+approveA1: confirmed in block 12026026
+stakeA1: sent 0x94d53a413bc8c90d5078f253524605d8fcc92c2d0395d32a1a47218206015eff
+stakeA1: confirmed in block 12026028
+  PASS  stakeOf(1, A) grew by the staked amount
+  waiting 66s for accrual ...
+  PASS  A earned(1) == formula for pool 1
+
+== 4-A-partial-withdraw-pool0
+withdrawA0: sent 0x2a5d3158378ac54680329801da786a4c683088fa5ad58312b10917c24840810d
+withdrawA0: confirmed in block 12026036
+  PASS  withdraw returned exactly the LP amount to A
+  PASS  pending reward settled on withdraw (no loss, no double count)
+  PASS  A share of pool 0 dropped after partial withdraw
+  waiting 66s for accrual ...
